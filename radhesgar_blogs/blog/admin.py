@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import BlogPost, Category, BlogImage
+from .models import BlogPost, Category, BlogImage, BlogSection
 
 class BlogImageInline(admin.TabularInline):
     model = BlogImage
@@ -7,12 +7,16 @@ class BlogImageInline(admin.TabularInline):
     min_num = 1
     max_num = 10
 
+class BlogSectionInline(admin.TabularInline):
+    model = BlogSection
+    extra = 1
+
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'created_at')
     list_filter = ('category', )
     prepopulated_fields = {"slug": ("title",)}
-    inlines = [BlogImageInline]
+    inlines = [BlogImageInline, BlogSectionInline]
 
     def save_model(self, request, obj, form, change):
         if not change:
