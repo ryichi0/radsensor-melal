@@ -6,7 +6,7 @@ from nested_admin import NestedModelAdmin, NestedStackedInline, NestedTabularInl
 class ListItemsInline(NestedTabularInline):
     model = ListItems
     extra = 1
-    fields = ['title']
+    fields = ['item']
 
 class BlogSectionInline(NestedStackedInline):
     model = BlogSection

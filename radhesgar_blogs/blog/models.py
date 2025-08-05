@@ -20,7 +20,7 @@ class Category(models.Model):
 
 class BlogPost(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="posts")
-    image = models.ImageField( blank=True, null=True)
+    image = models.ImageField( blank=True, null=True, upload_to="./blog_images")
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, allow_unicode=True)
     content = models.TextField( blank=True, null=True)
@@ -40,7 +40,7 @@ class BlogPost(models.Model):
 
 class BlogSection(models.Model):
     blog_post = models.ForeignKey(BlogPost, related_name='sections', on_delete=models.CASCADE)
-    image = models.ImageField( blank=True, null=True)
+    image = models.ImageField( blank=True, null=True, upload_to="./blog_images")
     heading = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -58,4 +58,4 @@ class ListItems(models.Model):
     item = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        return self.item
