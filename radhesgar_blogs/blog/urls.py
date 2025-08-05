@@ -1,9 +1,8 @@
 from django.urls import path
-from .views import BlogPostList, BlogPostDetail, CategoryList, BlogPostExportView
+from .views import BlogPostExportView, BlogPostDetailView, BlogPostsByCategoryView
 
 urlpatterns = [
-    path('posts/', BlogPostList.as_view(), name='post-list'),
-    path('posts/<slug:slug>/', BlogPostDetail.as_view(), name='post-detail'),
-    path('categories/', CategoryList.as_view(), name='category-list'),
-    path('export/', BlogPostExportView.as_view(), name='post-export'),
+    path('all/', BlogPostExportView.as_view(), name='post-export'),
+    path('<int:blog_id>/', BlogPostDetailView.as_view(), name='blog-detail'),
+    path('category/<int:category_id>/', BlogPostsByCategoryView.as_view(), name='blogs-by-category'),
 ]

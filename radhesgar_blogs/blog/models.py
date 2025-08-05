@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 
+
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(unique=True, allow_unicode=True)
@@ -16,11 +17,13 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 class BlogPost(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="posts")
+    image = models.ImageField( blank=True, null=True)
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, allow_unicode=True)
     content = models.TextField( blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="posts")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -34,10 +37,13 @@ class BlogPost(models.Model):
     def __str__(self):
         return self.title
 
+
 class BlogSection(models.Model):
     blog_post = models.ForeignKey(BlogPost, related_name='sections', on_delete=models.CASCADE)
-    heading = models.CharField(max_length=255)
-    content = models.TextField()
+    image = models.ImageField( blank=True, null=True)
+    heading = models.CharField(max_length=255, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -46,13 +52,10 @@ class BlogSection(models.Model):
     def __str__(self):
         return f"{self.blog_post.title} - {self.heading}"
 
-class BlogImage(models.Model):
-    blog_post = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='blog_images/', blank=True, null=True)
-    caption = models.CharField(max_length=255, blank=True)
+
+class ListItems(models.Model):
+    blog = models.ForeignKey(BlogSection, on_delete=models.CASCADE, related_name='list_items')
+    item = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"Image for {self.blog_post.title if self.blog_post else 'Unknown'}"
-
-
-# Create your models here.
+        return self.title
