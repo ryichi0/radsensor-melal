@@ -1,8 +1,18 @@
+version: '3.9'
+
 services:
   backend:
-    build: .
+    build:
+      context: .                     # Path to project root
+      dockerfile: Dockerfile
+    container_name: blog_backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app                       # Hot reload: sync local code → container
+      - ./db.sqlite3:/app/db.sqlite3 # Persist DB
+      - ./media:/app/media           # Persist media uploads
+      - ./static:/app/static         # Persist static files
     ports:
       - "8000:8000"
-    volumes:
-      - .:/app
-    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - PYTHONUNBUFFERED=1
