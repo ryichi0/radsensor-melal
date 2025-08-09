@@ -1,4 +1,3 @@
-from django.template.context_processors import request
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from .models import BlogPost, Category
 from .serializers import BlogPostSerializer, BlogPostDetailSerializer, BlogPostsByCategorySerializer

@@ -1,0 +1,32 @@
+from django.contrib import admin
+from product.models import Product, ProductFeature, ProductApplication, ProductSpecification, ProductImage
+
+
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 0
+    fields = ('image', )
+
+
+class ProductFeatureInline(admin.TabularInline):
+    model = ProductFeature
+    extra = 1
+    fields = ('feature', )
+
+
+class ProductApplicationInline(admin.TabularInline):
+    model = ProductApplication
+    extra = 1
+    fields = ('application', )
+
+
+class ProductSpecificationInline(admin.TabularInline):
+    model = ProductSpecification
+    extra = 1
+    fields = ('key', 'value')
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('page_title', 'product_name')
+    inlines = [ProductImageInline, ProductFeatureInline, ProductApplicationInline, ProductSpecificationInline]
