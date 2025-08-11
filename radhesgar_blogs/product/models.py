@@ -1,10 +1,17 @@
 from django.db import models
+from django.utils.text import slugify
 
 class Product(models.Model):
     page_title = models.CharField(max_length=250, blank=True)
     sub_title = models.CharField(max_length=300, blank=True)
     product_name = models.CharField(max_length=250, blank=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
     objects = models.Manager()
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.product_name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.product_name

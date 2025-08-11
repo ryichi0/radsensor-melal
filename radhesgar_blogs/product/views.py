@@ -3,12 +3,13 @@ from .models import Product
 from .serializers import ProductDetailSerializer, ProductSerializer
 import json
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 
 
 class ProductDetailsView(APIView):
-    def get(self, request, product_id):
+    def get(self, request, slug):
         try:
-            product = Product.objects.get(pk=product_id)
+            product = get_object_or_404(Product, slug=slug)
             serializer = ProductDetailSerializer(product, many=False)
             data = json.dumps(serializer.data, indent=2, ensure_ascii=False)
             response = HttpResponse(data, content_type='application/json')

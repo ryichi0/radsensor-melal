@@ -28,5 +28,6 @@ class ProductSpecificationInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('page_title', 'product_name')
+    prepopulated_fields = {"slug": ("product_name",)}
+    list_display = ('product_name', 'slug')
     inlines = [ProductImageInline, ProductFeatureInline, ProductApplicationInline, ProductSpecificationInline]
