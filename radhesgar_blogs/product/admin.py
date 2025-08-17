@@ -1,5 +1,10 @@
 from django.contrib import admin
-from product.models import Product, ProductFeature, ProductApplication, ProductSpecification, ProductImage
+from product.models import *
+
+class DownloadDatasheetInline(admin.TabularInline):
+    model = Download
+    extra = 1
+    fields = ('file', 'external_url')
 
 
 class ProductImageInline(admin.TabularInline):
@@ -30,4 +35,4 @@ class ProductSpecificationInline(admin.TabularInline):
 class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("product_name",)}
     list_display = ('product_name', 'slug')
-    inlines = [ProductImageInline, ProductFeatureInline, ProductApplicationInline, ProductSpecificationInline]
+    inlines = [ProductImageInline, ProductFeatureInline, ProductApplicationInline, ProductSpecificationInline, DownloadDatasheetInline]

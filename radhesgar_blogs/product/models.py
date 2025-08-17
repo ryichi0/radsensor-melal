@@ -45,6 +45,16 @@ class ProductSpecification(models.Model):
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_images')
     image = models.ImageField(upload_to='./product_images')
+    objects = models.Manager()
 
     def __str__(self):
         return self.image.name if self.image else "No image"
+
+class Download(models.Model):
+    product = models.ForeignKey("Product", on_delete=models.CASCADE, related_name="downloads")
+    file = models.FileField(upload_to="downloads/", blank=True, null=True)  # اگه بخوای فایل آپلود کنی
+    external_url = models.URLField(blank=True, null=True)  # یا لینک مستقیم بدی
+    objects = models.Manager()
+
+    def __str__(self):
+        return f"{self.product.product_name}"

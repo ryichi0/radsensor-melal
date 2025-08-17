@@ -36,8 +36,8 @@
           display: grid;
           gap: 2rem;
           grid-template-areas:
-          'header   header'
-          'blog     product'
+          'header   header  header'
+          'blog     product   downloads'
           ;
           padding: 4rem 2rem;
           max-width: 102em;
@@ -46,9 +46,10 @@
         @media  (max-width:768px){
         main{
         grid-template-areas:
-          'header   header'
-          'blog     blog'
-          'product product'
+          'header '
+          'blog '
+          'product '
+          'downloads'
           ;
         }
         }
@@ -124,13 +125,13 @@
         <h2>blog</h2>
         <dl>
           <dt>all blogs</dt>
-          <dd>api/blog/all/</dd>
+          <dd>/api/blog/all/</dd>
 
           <dt>access a specific blog by its id</dt>
-          <dd>api/blog/blog_id</dd>
+          <dd>/api/blog/blog_id</dd>
 
           <dt>access all blogs in a category by id</dt>
-          <dd>api/blog/category_id</dd>
+          <dd>/api/blog/category_id</dd>
         </dl>
       </section>
       <section class="product">
@@ -138,10 +139,21 @@
         <h2>product</h2>
         <dl>
           <dt>all products</dt>
-          <dd>api/product/all/</dd>
+          <dd>/api/product/all/</dd>
 
           <dt>access a specific product by its id</dt>
-          <dd>api/product/product_slug</dd>
+          <dd>/api/product/product_slug</dd>
+        </dl>
+      </section>
+      <section class="downloads">
+        <a href="http://0.0.0.0:8000/admin/product/product/add/" title="add product" class="add-btn">+</a>
+        <h2>downloads</h2>
+        <dl>
+          <dt>all datasheets</dt>
+          <dd>/api/product/datasheet-download/all/</dd>
+
+          <dt>access a datasheet by its id</dt>
+          <dd>/api/product/datasheet-download/product_id/</dd>
         </dl>
       </section>
   </main>

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, ProductImage, ProductFeature, ProductApplication, ProductSpecification
+from .models import *
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -51,3 +51,18 @@ class ProductSerializer(serializers.ModelSerializer):
             'slug',
             'product_images',
         ]
+
+
+class DownloadSerializer(serializers.ModelSerializer):
+    product_name = serializers.CharField(source="product.product_name", read_only=True)
+    product_image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Download
+        fields = ["id", "product_name", "product_image", "file", "external_url"]
+
+    def get_product_image(self, obj):
+        image = ProductImage.objects.filter(product=obj.product).first()
+        if image and image.image:
+            return image.image.url
+        return None
