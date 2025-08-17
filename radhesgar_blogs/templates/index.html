@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+      *{
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        body{
+          background-image: url('../media/root/boliviainteligente-8i9ggAj_ncE-unsplash.jpg');
+          background-size: cover;
+          background-repeat: no-repeat;
+          min-height: 100vh;
+          font-family: monospace;
+          text-align: center;
+          color: white;
+          text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+        }
+        section.header{
+          grid-area: header;
+          justify-content: center;
+        }
+        section.blog{
+          grid-area: blog;
+        }
+        section.product{
+          grid-area: product;
+        }
+        main{
+          min-height: 100vh;
+          display: grid;
+          gap: 2rem;
+          grid-template-areas:
+          'header   header'
+          'blog     product'
+          ;
+          padding: 4rem 2rem;
+          max-width: 102em;
+          margin-inline: auto;
+        }
+        @media  (max-width:768px){
+        main{
+        grid-template-areas:
+          'header   header'
+          'blog     blog'
+          'product product'
+          ;
+        }
+        }
+        section{
+          padding: 4rem 1rem;
+          background: #ffffff0c;
+          border: 0.1px solid rgba(255, 255, 255, 0.197);
+          border-radius: 30px;
+          backdrop-filter: blur(10px);
+          display: flex;
+          flex-direction: column;
+          justify-content: start;
+          align-items: center;
+          gap: 2rem;
+          position: relative;
+          box-shadow: inset 4px 4px 3px rgba(255, 255, 255, 0.01), inset -5px -10px 100px rgba(0, 0, 0, 0.02);
+        }
+        h1{
+          font-size: 2rem;
+          text-transform: uppercase;
+          font-family: inherit;
+          letter-spacing: 1rem;
+        }
+        h2{
+          font-size: 1.4rem;
+          text-transform: capitalize;
+        }
+        a{
+          padding: 0.7rem 0.9rem;
+          background: #ffffff10;
+          box-shadow:inset -3px -0.6px 10px rgba(255, 255, 255, 0.1), inset 0.1px 0.2px 1px rgba(255, 255, 255, 0.3);
+          border-radius: 50px;
+          border: none;
+          backdrop-filter: blur(4px);
+          text-transform: capitalize;
+          color: white;
+          cursor: pointer;
+          text-decoration: none;
+        }
+        dl>dt{
+          font-weight: bold;
+          text-transform: capitalize;
+          font-size: 0.8rem;
+        }
+        dt{
+          margin-block-start: 2.4rem;
+          margin-block-end: 0.6rem;
+          border-top: 0.4px solid rgba(255, 255, 255, 0.182);
+          padding-top: 0.6rem;
+        }
+        dd{
+          opacity: 0.6;
+        }
+        a.add-btn{
+          position: absolute;
+          right: 18px;
+          top: 18px;
+          color: white;
+        }
+
+
+
+  </style>
+</head>
+<body>
+  <main>
+      <section class="header">
+        <h1>roadmap</h1>
+        <a href="http://0.0.0.0:8000/admin/">admin dashboard</a>
+      </section>
+      <section class="blog">
+        <a href="http://0.0.0.0:8000/admin/blog/blogpost/add/" title="add blog" class="add-btn">+</a>
+        <h2>blog</h2>
+        <dl>
+          <dt>all blogs</dt>
+          <dd>api/blog/all/</dd>
+
+          <dt>access a specific blog by its id</dt>
+          <dd>api/blog/blog_id</dd>
+
+          <dt>access all blogs in a category by id</dt>
+          <dd>api/blog/category_id</dd>
+        </dl>
+      </section>
+      <section class="product">
+        <a href="http://0.0.0.0:8000/admin/product/product/add/" title="add product" class="add-btn">+</a>
+        <h2>product</h2>
+        <dl>
+          <dt>all products</dt>
+          <dd>api/product/all/</dd>
+
+          <dt>access a specific product by its id</dt>
+          <dd>api/product/product_slug</dd>
+        </dl>
+      </section>
+  </main>
+</body>
+</html>

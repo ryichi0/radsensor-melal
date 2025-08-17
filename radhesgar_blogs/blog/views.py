@@ -36,3 +36,4 @@ class BlogPostsByCategoryView(APIView):
         serializer = BlogPostsByCategorySerializer(queryset, many=True)
         data = json.dumps(serializer.data, indent=2, ensure_ascii=False)
         return HttpResponse(data, content_type='application/json')
+
