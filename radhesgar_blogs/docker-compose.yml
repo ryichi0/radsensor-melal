@@ -1,18 +1,41 @@
-version: '3.9'
+version: "3.8"
 
 services:
   backend:
     build:
-      context: .                     # Path to project root
-      dockerfile: Dockerfile
-    container_name: blog_backend
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/app                       # Hot reload: sync local code → container
-      - ./db.sqlite3:/app/db.sqlite3 # Persist DB
-      - ./media:/app/media           # Persist media uploads
-      - ./static:/app/static         # Persist static files
+      context: ./backend
     ports:
       - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - sqlite_data:/app/db.sqlite3
     environment:
-      - PYTHONUNBUFFERED=1
+      - DEBUG=True
+      - DJANGO_SETTINGS_MODULE=your_project.settings
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  sqlite_data:
+
+networks:
+  default:
+    driver: bridge

@@ -17,5 +17,3 @@ class ContactMessageCreateView(APIView):
             {"success": False, "errors": serializer.errors},
             status=status.HTTP_400_BAD_REQUEST
         )
-
-
