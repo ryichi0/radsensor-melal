@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, RetrieveAPIView
-from .models import Product, Download
-from .serializers import ProductDetailSerializer, ProductSerializer, DownloadSerializer
+from .models import Product
+from .serializers import ProductDetailSerializer, ProductSerializer, ProductDownloadsSerializer
 import json
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -35,8 +35,8 @@ class ProductExportView(APIView):
 class DownloadExportView(APIView):
     def get(self, request):
         try:
-            download_links = Download.objects.all()
-            serializer = DownloadSerializer(download_links, many=True)
+            download_links = Product.objects.all()
+            serializer = ProductDownloadsSerializer(download_links, many=True, context={'request': request})
             data = json.dumps(serializer.data, indent=2, ensure_ascii=False)
             response = HttpResponse(data, content_type='application/json')
             return response
@@ -44,15 +44,3 @@ class DownloadExportView(APIView):
             print("❌ Error during export:", str(e))
             raise e
 
-
-class DownloadDetailsView(APIView):
-    def get(self, request, id):
-        try:
-            download_link = get_object_or_404(Download, pk=id)
-            serializer = DownloadSerializer(download_link, many=False)
-            data = json.dumps(serializer.data, indent=2, ensure_ascii=False)
-            response = HttpResponse(data, content_type='application/json')
-            return response
-        except Exception as e:
-            print("❌ Error during export:", str(e))
-            raise e

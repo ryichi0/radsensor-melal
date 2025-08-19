@@ -52,17 +52,40 @@ class ProductSerializer(serializers.ModelSerializer):
             'product_images',
         ]
 
-
-class DownloadSerializer(serializers.ModelSerializer):
-    product_name = serializers.CharField(source="product.product_name", read_only=True)
+class ProductDownloadsSerializer(serializers.ModelSerializer):
+    datasheet = serializers.SerializerMethodField()
+    calibration_software = serializers.SerializerMethodField()
+    modbus_poll_software = serializers.SerializerMethodField()
     product_image = serializers.SerializerMethodField()
 
     class Meta:
-        model = Download
-        fields = ["id", "product_name", "product_image", "file", "external_url"]
+        model = Product
+        fields = [
+            "id",
+            "product_name",
+            "product_image",
+            "datasheet",
+            "calibration_software",
+            "modbus_poll_software",
+        ]
 
     def get_product_image(self, obj):
-        image = ProductImage.objects.filter(product=obj.product).first()
+        image = ProductImage.objects.filter(product=obj).first()
         if image and image.image:
-            return image.image.url
+            return image.image.url  # فقط مسیر از MEDIA_URL
+        return None
+
+    def get_datasheet(self, obj):
+        if obj.datasheet:
+            return obj.datasheet.url  # فقط مسیر از MEDIA_URL
+        return None
+
+    def get_calibration_software(self, obj):
+        if obj.calibration_software and obj.calibration_software.software_file:
+            return obj.calibration_software.software_file.url
+        return None
+
+    def get_modbus_poll_software(self, obj):
+        if obj.modbus_software and obj.modbus_software.software_file:
+            return obj.modbus_software.software_file.url
         return None
