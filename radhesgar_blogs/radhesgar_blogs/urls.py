@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 urlpatterns = [
-    path(os.getenv("ADMIN_URL"), admin.site.urls),
+    path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('api/blog/', include('blog.urls')),
     path('api/product/', include('product.urls')),
